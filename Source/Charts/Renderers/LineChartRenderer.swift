@@ -520,11 +520,39 @@ open class LineChartRenderer: LineRadarRenderer
                     
                     if let icon = e.icon, dataSet.isDrawIconsEnabled
                     {
+                        var xOrigin = pt.x
+                        
+                        // Show second value
+                        if let lineChartView = self.dataProvider as? LineChartView, lineChartView.type == .RN {
+                            let secondValue = formatter.secondaryStringForValue!(
+                                e.y,
+                                entry: e,
+                                dataSetIndex: i,
+                                viewPortHandler: viewPortHandler)
+                            if !secondValue.isEmpty {
+                                // If there is a second value, adjust position of icon and second label
+                                xOrigin = xOrigin - 5
+                            }
+                            
+                            ChartUtils.drawText(
+                                context: context,
+                                text: formatter.secondaryStringForValue!(
+                                    e.y,
+                                    entry: e,
+                                    dataSetIndex: i,
+                                    viewPortHandler: viewPortHandler),
+                                point: CGPoint(
+                                    x: xOrigin + iconsOffset.x + icon.size.width - 5,
+                                    y: valueToPixelMatrix.ty + 22),
+                                align: .center,
+                                attributes: [NSAttributedString.Key.font: valueFont, NSAttributedString.Key.foregroundColor: dataSet.valueTextColorAt(j)])
+                        }
+                        
                         ChartUtils.drawImage(context: context,
                                              image: icon,
-                                             x: pt.x + iconsOffset.x,
-                                             y: pt.y + iconsOffset.y,
-                                             size: icon.size)
+                                             x: xOrigin + iconsOffset.x,
+                                             y: valueToPixelMatrix.ty + 30,
+                                             size: CGSize.init(width: 20, height: 20))
                     }
                 }
             }

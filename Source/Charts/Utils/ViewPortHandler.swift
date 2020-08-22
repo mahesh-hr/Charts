@@ -90,9 +90,9 @@ open class ViewPortHandler: NSObject
 
     @objc open func restrainViewPort(offsetLeft: CGFloat, offsetTop: CGFloat, offsetRight: CGFloat, offsetBottom: CGFloat)
     {
-        _contentRect.origin.x = offsetLeft
-        _contentRect.origin.y = offsetTop
-        _contentRect.size.width = _chartWidth - offsetLeft - offsetRight
+        _contentRect.origin.x = offsetLeft + 10
+        _contentRect.origin.y = offsetTop - 5
+        _contentRect.size.width = _chartWidth - offsetLeft - offsetRight - 23
         _contentRect.size.height = _chartHeight - offsetBottom - offsetTop
     }
     

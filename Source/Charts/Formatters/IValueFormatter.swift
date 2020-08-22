@@ -33,4 +33,9 @@ public protocol IValueFormatter: class
                         entry: ChartDataEntry,
                         dataSetIndex: Int,
                         viewPortHandler: ViewPortHandler?) -> String
+    
+    @objc optional func secondaryStringForValue(_ value: Double,
+                                                entry: ChartDataEntry,
+                                                dataSetIndex: Int,
+                                                viewPortHandler: ViewPortHandler?) -> String
 }
