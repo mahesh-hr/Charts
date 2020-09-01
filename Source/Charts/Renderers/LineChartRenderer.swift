@@ -532,27 +532,29 @@ open class LineChartRenderer: LineRadarRenderer
                             if !secondValue.isEmpty {
                                 // If there is a second value, adjust position of icon and second label
                                 xOrigin = xOrigin - 5
+                                
+                                ChartUtils.drawText(
+                                    context: context,
+                                    text: secondValue,
+                                    point: CGPoint(
+                                        x: xOrigin + iconsOffset.x + icon.size.width - 5,
+                                        y: viewPortHandler.contentBottom + 22),
+                                    align: .center,
+                                    attributes: [NSAttributedString.Key.font: valueFont, NSAttributedString.Key.foregroundColor: dataSet.valueTextColorAt(j)])
+                                
+                                ChartUtils.drawImage(context: context,
+                                image: icon,
+                                x: xOrigin + iconsOffset.x,
+                                y: viewPortHandler.contentBottom + 30,
+                                size: CGSize.init(width: 20, height: 20))
                             }
-                            
-                            ChartUtils.drawText(
-                                context: context,
-                                text: formatter.secondaryStringForValue!(
-                                    e.y,
-                                    entry: e,
-                                    dataSetIndex: i,
-                                    viewPortHandler: viewPortHandler),
-                                point: CGPoint(
-                                    x: xOrigin + iconsOffset.x + icon.size.width - 5,
-                                    y: valueToPixelMatrix.ty + 22),
-                                align: .center,
-                                attributes: [NSAttributedString.Key.font: valueFont, NSAttributedString.Key.foregroundColor: dataSet.valueTextColorAt(j)])
+                        } else {
+                            ChartUtils.drawImage(context: context,
+                            image: icon,
+                            x: xOrigin + iconsOffset.x,
+                            y: viewPortHandler.contentBottom + 30,
+                            size: CGSize.init(width: 20, height: 20))
                         }
-                        
-                        ChartUtils.drawImage(context: context,
-                                             image: icon,
-                                             x: xOrigin + iconsOffset.x,
-                                             y: valueToPixelMatrix.ty + 30,
-                                             size: CGSize.init(width: 20, height: 20))
                     }
                 }
             }
