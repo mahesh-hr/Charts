@@ -46,7 +46,7 @@ extension LineChartView {
         }
         
         func secondaryStringForValue(_ value: Double, entry: ChartDataEntry, dataSetIndex: Int, viewPortHandler: ViewPortHandler?) -> String {
-            guard let secondValue = Int(secondaryValues[Int(entry.x)]), secondValue != 0 else {
+            guard let secondValue = Float(secondaryValues[Int(entry.x)]), secondValue > 0 else {
                 return ""
             }
             

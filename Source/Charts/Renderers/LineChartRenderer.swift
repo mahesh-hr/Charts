@@ -531,13 +531,13 @@ open class LineChartRenderer: LineRadarRenderer
                                 viewPortHandler: viewPortHandler)
                             if !secondValue.isEmpty {
                                 // If there is a second value, adjust position of icon and second label
-                                xOrigin = xOrigin - 5
+                                xOrigin = xOrigin - 10
                                 
                                 ChartUtils.drawText(
                                     context: context,
                                     text: secondValue,
                                     point: CGPoint(
-                                        x: xOrigin + iconsOffset.x + icon.size.width - 5,
+                                        x: xOrigin + iconsOffset.x + icon.size.width + 2,
                                         y: viewPortHandler.contentBottom + 22),
                                     align: .center,
                                     attributes: [NSAttributedString.Key.font: valueFont, NSAttributedString.Key.foregroundColor: dataSet.valueTextColorAt(j)])
