@@ -546,14 +546,14 @@ open class LineChartRenderer: LineRadarRenderer
                                 image: icon,
                                 x: xOrigin + iconsOffset.x,
                                 y: viewPortHandler.contentBottom + 30,
-                                size: CGSize.init(width: 20, height: 20))
+                                size: CGSize.init(width: 25, height: 25))
                             }
-                        } else {
+                        } else if let lineChartView = self.dataProvider as? LineChartView {
                             ChartUtils.drawImage(context: context,
                             image: icon,
                             x: xOrigin + iconsOffset.x,
                             y: viewPortHandler.contentBottom + 30,
-                            size: CGSize.init(width: 20, height: 20))
+                            size: lineChartView.category == .HR ? CGSize.init(width: 25, height: 25) : CGSize.init(width: 46, height: 46))
                         }
                     }
                 }

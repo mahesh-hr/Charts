@@ -18,6 +18,11 @@ public enum ChartType {
     case WND
 }
 
+public enum ChartCategory {
+    case HR
+    case DL
+}
+
 /// Chart that draws lines, surfaces, circles, ...
 open class LineChartView: BarLineChartViewBase, LineChartDataProvider
 {
@@ -32,6 +37,7 @@ open class LineChartView: BarLineChartViewBase, LineChartDataProvider
     
     open var lineData: LineChartData? { return _data as? LineChartData }
     public var type: ChartType = .TMP
+    public var category: ChartCategory = .HR
 }
 
 
@@ -112,8 +118,7 @@ extension LineChartView {
         chartDataSet.circleHoleRadius = 0
         chartDataSet.circleRadius = 2
         chartDataSet.setCircleColor(color)
-        chartDataSet.fillColor = NSUIColor.clear
-        
+        chartDataSet.fillColor = ChartColorTemplates.colorFromString("rgba(168,127,127,0.2)")
         
         let maxRain = rainValues.max()
         var chartData = LineChartData()
@@ -140,7 +145,8 @@ extension LineChartView {
             rainDataSet.mode = .horizontalBezier
             rainDataSet.drawFilledEnabled = true
             rainDataSet.valueTextColor = NSUIColor.clear
-            rainDataSet.fillColor = .clear
+            rainDataSet.fillColor = ChartColorTemplates.colorFromString("rgba(159,207,255,0.7)")
+            
             var rainvals: [String] = []
             for value in rainValues {
                 rainvals.append(String(format:"%d",Int(value)))
@@ -149,31 +155,22 @@ extension LineChartView {
             let rainvalueFormatter = LineChartValueFormatter()
             rainvalueFormatter.values = rainvals
             rainDataSet.valueFormatter = rainvalueFormatter
-            chartData = LineChartData(dataSets: [chartDataSet,
-                                                 rainDataSet,
-                                                 self.getReferenceLineDataSetfor(referenceLine: referenceLine1),
-                                                 self.getReferenceLineDataSetfor(referenceLine: referenceLine2),
-                                                 self.getReferenceLineDataSetfor(referenceLine: referenceLine3)])
+            chartData = LineChartData(dataSets: [chartDataSet, rainDataSet])
             
         }else{
-            chartData = LineChartData(dataSets: [chartDataSet,
-                                                 self.getReferenceLineDataSetfor(referenceLine: referenceLine1),
-                                                 self.getReferenceLineDataSetfor(referenceLine: referenceLine2),
-                                                 self.getReferenceLineDataSetfor(referenceLine: referenceLine3)])
+            chartData = LineChartData(dataSets: [chartDataSet])
         }
         
         
         let chartFormatter = LineChartFormatter(labels: xValues)
-        
         let xAxis = XAxis()
         xAxis.valueFormatter = chartFormatter
         self.xAxis.valueFormatter = xAxis.valueFormatter
-        self.xAxis.setLabelCount(5, force: false)
-        self.xAxis.avoidFirstLastClippingEnabled = true
+        self.xAxis.avoidFirstLastClippingEnabled = false
         self.xAxis.axisMaxLabels = 50
         self.xAxis.labelFont = UIFont.init(name: "Barlow-Regular", size: 12.0)!
+        self.xAxis.labelCount = 5
         self.data = chartData
-        
         self.setVisibleXRangeMaximum(5.0)
         self.dragYEnabled = false;
         self.dragXEnabled = true;
@@ -233,8 +230,8 @@ extension LineChartView {
         minTempDataSet.circleHoleRadius = 0
         minTempDataSet.circleRadius = 2
         minTempDataSet.setCircleColor(color)
-        
-        minTempDataSet.fillColor = NSUIColor.clear
+        minTempDataSet.fillColor = NSUIColor.white
+        minTempDataSet.fillAlpha = 1.0
         var minvalues: [String] = []
         for value in minTempValues {
             minvalues.append(String(format:"%.0f%@",value, "\u{00B0}"))
@@ -270,8 +267,7 @@ extension LineChartView {
         maxTempDataSet.circleHoleRadius = 0
         maxTempDataSet.circleRadius = 2
         maxTempDataSet.setCircleColor(color)
-        
-        maxTempDataSet.fillColor = NSUIColor.clear
+        maxTempDataSet.fillColor = ChartColorTemplates.colorFromString("rgba(168,127,127,0.2)")
         var maxvalues: [String] = []
         for value in maxTempValues {
             maxvalues.append(String(format:"%.0f%@",value, "\u{00B0}"))
@@ -307,7 +303,7 @@ extension LineChartView {
         rainDataSet.drawFilledEnabled = true
         rainDataSet.setCircleColor(color)
         rainDataSet.valueTextColor = .clear//*** to hide the value labels on line
-        rainDataSet.fillColor = .clear
+        rainDataSet.fillColor = ChartColorTemplates.colorFromString("rgba(159,207,255,0.7)")
         
         var rainvals: [String] = []
         for value in rainValues {
@@ -317,26 +313,24 @@ extension LineChartView {
         let rainvalueFormatter = LineChartValueFormatter()
         rainvalueFormatter.values = rainvals
         rainDataSet.valueFormatter = rainvalueFormatter
-        chartData = LineChartData(dataSets: [minTempDataSet,maxTempDataSet,rainDataSet,
-                                             self.getReferenceLineDataSetfor(referenceLine: referenceLine1),
-                                             self.getReferenceLineDataSetfor(referenceLine: referenceLine2),
-                                             self.getReferenceLineDataSetfor(referenceLine: referenceLine3)])
+        chartData = LineChartData(dataSets: [maxTempDataSet,minTempDataSet,rainDataSet])
         
         let chartFormatter = LineChartFormatter(labels: xValues)
         
         let xAxis = XAxis()
         xAxis.valueFormatter = chartFormatter
         self.xAxis.valueFormatter = xAxis.valueFormatter
-        self.xAxis.setLabelCount(5, force: false)
-        self.xAxis.avoidFirstLastClippingEnabled = true
+        self.xAxis.setLabelCount(4, force: false)
+        self.xAxis.avoidFirstLastClippingEnabled = false
         self.xAxis.axisMaxLabels = 70
-        self.xAxis.labelFont = UIFont.init(name: "Barlow-Regular", size: 14.0)!
+        self.xAxis.labelFont = UIFont.init(name: "Barlow-Medium", size: 12.0)!
         
         self.data = chartData
         
-        self.setVisibleXRangeMaximum(5.0)
+        self.setVisibleXRangeMaximum(4.0)
         self.dragYEnabled = false;
         self.dragXEnabled = true;
+        self.notifyDataSetChanged()
         
         self.lineData?.setDrawValues(true)
         
