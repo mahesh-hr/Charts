@@ -169,9 +169,9 @@ extension LineChartView {
         self.xAxis.avoidFirstLastClippingEnabled = false
         self.xAxis.axisMaxLabels = 50
         self.xAxis.labelFont = UIFont.init(name: "Barlow-Regular", size: 12.0)!
-        self.xAxis.labelCount = 5
+        self.xAxis.labelCount = 6
         self.data = chartData
-        self.setVisibleXRangeMaximum(5.0)
+        self.setVisibleXRangeMaximum(6.0)
         self.dragYEnabled = false;
         self.dragXEnabled = true;
         
